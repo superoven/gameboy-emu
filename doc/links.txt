@@ -1,0 +1,10 @@
+----
+Please add to this list other sites you find useful.
+We need as much information as we can get
+----
+
+http://nesdev.parodius.com/
+
+http://fms.komkon.org/GameBoy/Tech/Software.html
+
+http://fms.komkon.org/EMUL8/HOWTO.html
