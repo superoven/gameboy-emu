@@ -12,6 +12,9 @@
 #include "headers/processor.h"
 #include "headers/gemu.h"
 
+#include <stdio.h>
+
 int main(int argc, char *argv[]) {
+  printf("hey\n");
   return 0;
 }

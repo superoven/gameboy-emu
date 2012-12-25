@@ -8,6 +8,10 @@ CFLAGS := -g -Wall
 OBJECTS := $(addprefix obj/, $(SOURCEFILES:.c=.o))
 EXECUTABLE := gemu
 
+#I can't seem to remember how to make it properly recompile if
+#a header file changes, it is commented out for now
+#If you change a header, make sure to make clean first for now
+
 all: $(SOURCES) $(EXECUTABLE) #$(HEADERS)
 
 $(EXECUTABLE): $(OBJECTS) #$(HEADERS)
@@ -17,7 +21,7 @@ $(EXECUTABLE): $(OBJECTS) #$(HEADERS)
 obj/%.o: src/%.c src/header/%.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-#Overloaded object compiler for .cpp files without headers
+#Overloaded object compiler for .c files without headers
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
