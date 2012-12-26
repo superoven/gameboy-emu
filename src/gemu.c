@@ -29,6 +29,6 @@ int main(int argc, char *argv[]) {
   }
 
   int filesize = loadrom(argv[1], &romdata);
-  printf("Size of rom: %d\n", filesize);
+  rominfo(filesize);
   return 0;
 }
