@@ -13,8 +13,22 @@
 #include "headers/gemu.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+
+char* romdata;
+
+void error(const char* message) {
+  fprintf(stderr, "Error: %s\n", message);
+  exit(1);
+}
 
 int main(int argc, char *argv[]) {
-  printf("hey\n");
+  if (argc < 2) {
+    printf("Usage: ./gemu [rom]\n");
+    return 0;
+  }
+
+  int filesize = loadrom(argv[1], &romdata);
+  printf("Size of rom: %d\n", filesize);
   return 0;
 }

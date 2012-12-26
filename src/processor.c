@@ -8,3 +8,4 @@
 
 #include "headers/processor.h"
 #include "headers/memory.h"
+#include "headers/gemu.h"

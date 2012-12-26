@@ -9,8 +9,13 @@
 #ifndef __gemu_h
 #define __gemu_h
 
-int five = 5;
+#include <stdio.h>
 
+extern void error(const char* message);
+extern int loadrom(const char* romname, char** result);
+
+extern char* romdata;
+  
 //Do stuff
 
 #endif
