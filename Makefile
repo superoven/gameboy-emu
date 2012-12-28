@@ -4,7 +4,7 @@ SOURCES := $(addprefix src/, $(SOURCEFILES))
 HEADERS := $(addprefix src/header/, $(HEADERFILES))
 
 CC := gcc
-CFLAGS := -g -Wall
+CFLAGS := -g -Wall -std=c99
 OBJECTS := $(addprefix obj/, $(SOURCEFILES:.c=.o))
 EXECUTABLE := gemu
 

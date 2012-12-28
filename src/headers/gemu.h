@@ -23,4 +23,7 @@ extern void rominfo(int size);
 //The global pointer to the beginning of the rom data
 extern char* romdata;
 
+//Print out the hex of the rom
+extern void printhex(int filesize);
+
 #endif

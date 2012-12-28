@@ -26,6 +26,12 @@ int loadrom(const char* romname, char** result) {
   return size;
 }
 
+void printhex(int filesize) {
+  for (int i = 0; i < filesize; i++) {
+    printf("%04X:\t%01X%01X\n",i, (romdata[i]&0xF0)>>4, romdata[i]&0xF);
+  }
+}
+
 const char* manufacturer(char data) {
   if (data == 0x33)
     return "Nintendo";
@@ -52,23 +58,20 @@ const char* carttype(char data) {
   return "Unknown";
 }
 
-//TODO: Why can't I uncomment out the next part? It should work, but doesn't
 int verifyrom() {
-  return (romdata[0x0100] == 0);// && romdata[0x0101] == 0xC3);
+  return ((romdata[0x0100]&0xFF) == 0x00) && ((romdata[0x0101]&0xFF) == 0xC3);
 }
 
 //TODO: Checksum this properly
-void rominfo(int size) {
+inline void rominfo(int size) {
   if (verifyrom()) {
     printf("Name of Game:\t%.15s\n", (romdata + 0x0134));
     printf("Size of File:\t%d bytes\n", size);
-    printf("Language:\t%s\n", romdata[0x014A] ? "English" : "Japanese");
-    printf("Manufacturer:\t%s\n", manufacturer(romdata[0x014B]));
-    printf("Version Number:\t1.%d\n", romdata[0x014C]);
-    //printf("Cartridge:\t%s\n", carttype(romdata[0x0147]));
+    printf("Language:\t%s\n", (romdata[0x014A]&0xFF) ? "English" : "Japanese");
+    printf("Manufacturer:\t%s\n", manufacturer((romdata[0x014B]&0xFF)));
+    printf("Version Number:\t1.%d\n", (romdata[0x014C]&0xFF));
   }
   else error("Invalid Rom");
-
 }
 
 /*
@@ -78,7 +81,7 @@ void rominfo(int size) {
            recognize GameBoy cartridges. When GameBoy starts, the control is 
            passed to address 0100 and then the sequence is interpreted as    
            NOP; JP .
-0105-0133  Nintendo character area:
+0104-0133  Nintendo character area:
            CE ED 66 66 CC 0D 00 0B 03 73 00 83 00 0C 00 0D
            00 08 11 1F 88 89 00 0E DC CC 6E E6 DD DD D9 99
            BB BB 67 63 6E 0E EC CC DD DC 99 9F BB B9 33 3E
