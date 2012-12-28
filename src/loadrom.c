@@ -26,8 +26,8 @@ int loadrom(const char* romname, char** result) {
   return size;
 }
 
-void printhex(int filesize) {
-  for (int i = 0; i < filesize; i++) {
+void printhex(int begin, int end) {
+  for (int i = begin; i < end; i++) {
     printf("%04X:\t%01X%01X\n",i, (romdata[i]&0xF0)>>4, romdata[i]&0xF);
   }
 }

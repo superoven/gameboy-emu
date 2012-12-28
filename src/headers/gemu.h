@@ -11,6 +11,9 @@
 
 #include <stdio.h>
 
+//The global pointer to the beginning of the rom data
+extern char* romdata;
+
 //General method to throw runtime errors
 extern void error(const char* message);
 
@@ -20,10 +23,7 @@ extern int loadrom(const char* romname, char** result);
 //Print out all basic information about this rom
 extern void rominfo(int size);
 
-//The global pointer to the beginning of the rom data
-extern char* romdata;
-
-//Print out the hex of the rom
-extern void printhex(int filesize);
+//Print out the hex of the rom starting from "begin" to "end"
+extern void printhex(int begin, int end);
 
 #endif

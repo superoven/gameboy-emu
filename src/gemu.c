@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
 
   int filesize = loadrom(argv[1], &romdata);
   rominfo(filesize);
-  //printhex(filesize);
+  //printhex(0,filesize);
+  free(romdata);
   return 0;
 }
