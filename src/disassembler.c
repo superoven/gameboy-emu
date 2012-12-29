@@ -1,5 +1,5 @@
 
-int dissamle(uint16_t address)
+int disassemble(uint16_t address)
 {
 /* Ok, so I'm just making variables for any bits that are used to differentiate opcodes.
     Once I've gone through all of the opcodes I will be able to organize it better
