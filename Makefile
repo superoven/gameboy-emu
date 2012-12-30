@@ -1,4 +1,4 @@
-SOURCEFILES := gemu.c memory.c processor.c loadrom.c
+SOURCEFILES := gemu.c memory.c processor.c loadrom.c disassembler.c
 HEADERFILES := gemu.h memory.h processor.h
 SOURCES := $(addprefix src/, $(SOURCEFILES))
 HEADERS := $(addprefix src/header/, $(HEADERFILES))
