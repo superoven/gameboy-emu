@@ -10,6 +10,7 @@
 #define __gemu_h
 
 #include <stdio.h>
+#include <inttypes.h>
 
 //The global pointer to the beginning of the rom data
 extern char* romdata;
@@ -25,5 +26,8 @@ extern void rominfo(int size);
 
 //Print out the hex of the rom starting from "begin" to "end"
 extern void printhex(int begin, int end);
+
+//Disassemble the given instruction in romdata at "address" return number of bytes used
+int disassemble(uint16_t address);
 
 #endif
