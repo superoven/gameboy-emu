@@ -18,10 +18,20 @@ int disassemble(uint16_t address)
   unsigned char B3_01 = romdata[address+2] >> 6;       // byte 3 bits[0:1]
   unsigned char B3_24 = (romdata[address+2] >> 3) & 7; // byte 3 bits[2:4]
   unsigned char B3_57 = romdata[address+2] & 7;        // byte 3 bits[5:7]
+  unsigned char B4_07 = romdata[address+3];            // byte 4 bits[0:7]
+  unsigned char B4_01 = romdata[address+3] >> 6;       // byte 4 bits[0:1]
+  unsigned char B4_24 = (romdata[address+3] >> 3) & 7; // byte 4 bits[2:4]
+  unsigned char B4_57 = romdata[address+3] & 7;        // byte 4 bits[5:7]
   
   if(B1_01==1 && B1_57==6)
   {
     printf("LD r <- (HL)\n");
+    return 1;
+  }
+  
+  if(B1_01==1 && B1_24==6)
+  {
+    printf("LD (HL) <- r\n");
     return 1;
   }
   
@@ -31,9 +41,59 @@ int disassemble(uint16_t address)
     return 1;
   }
   
+  if(B1_07==0x36)
+  {
+    printf("LD (HL) <- n\n");
+    return 2;
+  }
+  
+  if(B1_07==0x0A)
+  {
+    printf("LD A <- (BC)\n");
+    return 1;
+  }
+  
   if(B1_01==0 && B1_57==6)
   {
     printf("LD r <- n\n");
     return 2;
   }
+  
+  if(B1_07==0xDD && B2_07==0x36)
+  {
+    printf("LD (IX+d) <- n\n");
+    return 4;
+  }
+  
+  if(B1_07==0xDD && B2_01==1 && B2_24==6)
+  {
+    printf("LD (IX+d) <- r\n");
+    return 3;
+  }
+  
+  if(B1_07==0xDD && B2_01==1 && B2_57==6)
+  {
+    printf("LD r <- (IX+d)\n");
+    return 3;
+  }
+  
+  if(B1_07==0xFD && B2_07==0x36)
+  {
+    printf("LD (IY+d) <- n\n");
+    return 4;
+  }
+  
+  if(B1_07==0xFD && B2_01==1 && B2_24==6)
+  {
+    printf("LD (IY+d) <- r\n");
+    return 3;
+  }
+  
+  if(B1_07==0xFD && B2_01==1 && B2_57==6)
+  {
+    printf("LD r <- (IY+d)\n");
+    return 3;
+  }
+  
+  return 0;
 }
