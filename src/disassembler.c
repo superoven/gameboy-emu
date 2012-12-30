@@ -6,32 +6,33 @@
 
 char* romdata;
 
-int disassemble(uint16_t address)
+int disassemble(uint16_t address, char* data)
 {
-/* Ok, so I'm just making variables for any bits that are used to differentiate opcodes.
-    Once I've gone through all of the opcodes I will be able to organize it better
-    Reads in the address to parse instruction at, returns number of bytes parsed
-    variable names go B #of byte being read _ bit range being stored
+/* 
+   Ok, so I'm just making variables for any bits that are used to differentiate opcodes.
+   Once I've gone through all of the opcodes I will be able to organize it better
+   Reads in the address to parse instruction at, returns number of bytes parsed
+   variable names go B #of byte being read _ bit range being stored
 */
-  unsigned char B1_07 = romdata[address] & 0xFF;    // byte 1 bits[0:7]
+  unsigned char B1_07 = data[address] & 0xFF;    // byte 1 bits[0:7]
   unsigned char B1_01 = B1_07 >> 6;                 // byte 1 bits[0:1]
   unsigned char B1_24 =(B1_07 >> 3) & 7;            // byte 1 bits[2:4]
   unsigned char B1_47 = B1_07 & 0xF;                // byte 1 bits[4:7]
   unsigned char B1_57 = B1_07 & 7;                  // byte 1 bits[5:7]
   
-  unsigned char B2_07 = romdata[address+1] & 0xFF;  // byte 2 bits[0:7]
+  unsigned char B2_07 = data[address+1] & 0xFF;  // byte 2 bits[0:7]
   unsigned char B2_01 = B2_07 >> 6;                 // byte 2 bits[0:1]
   unsigned char B2_24 =(B2_07 >> 3) & 7;            // byte 2 bits[2:4]
   unsigned char B2_47 = B2_07 & 0xF;                // byte 2 bits[4:7]
   unsigned char B2_57 = B2_07 & 7;                  // byte 2 bits[5:7]
   
-  unsigned char B3_07 = romdata[address+2] & 0xFF;  // byte 3 bits[0:7]
+  unsigned char B3_07 = data[address+2] & 0xFF;  // byte 3 bits[0:7]
   unsigned char B3_01 = B3_07 >> 6;                 // byte 3 bits[0:1]
   unsigned char B3_24 =(B3_07 >> 3) & 7;            // byte 3 bits[2:4]
   unsigned char B3_47 = B3_07 & 0xF;                // byte 3 bits[4:7]
   unsigned char B3_57 = B3_07 & 7;                  // byte 3 bits[5:7]
   
-  unsigned char B4_07 = romdata[address+3] & 0xFF;  // byte 4 bits[0:7]
+  unsigned char B4_07 = data[address+3] & 0xFF;  // byte 4 bits[0:7]
   unsigned char B4_01 = B4_07 >> 6;                 // byte 4 bits[0:1]
   unsigned char B4_24 =(B4_07 >> 3) & 7;            // byte 4 bits[2:4]
   unsigned char B4_47 = B1_07 & 0xF;                // byte 4 bits[4:7]
