@@ -272,9 +272,33 @@ int disassemble(uint16_t address)
     return 2;
   }
   
+  if(B1_07==0xED && B2_07==0xB9)
+  {
+    printf("CPDR A-(HL),HL <- HL-1,BC <- BC-1\n");
+    return 2;
+  }
+  
   if(B1_07==0xED && B2_07==0xB0)
   {
     printf("LDIR (DE)<-(HL),DE <- DE+1, HL <- HL+1, BC F <-> BC-1\n");
+    return 2;
+  }
+  
+  if(B1_07==0xED && B2_07==0xA1)
+  {
+    printf("CPI A-(HL),HL <- HL+1, BC <- BC-1\n");
+    return 2;
+  }
+  
+  if(B1_07==0xED && B2_07==0xB1)
+  {
+    printf("CPIR A-(HL),HL <- HL+1,BC <- BC-1\n");
+    return 2;
+  }
+  
+  if(B1_07==0xED && B2_07==0xA9)
+  {
+    printf("CPD A-(HL),HL <- HL-1,BC <- BC-1\n");
     return 2;
   }
   
