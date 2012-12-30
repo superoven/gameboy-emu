@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "headers/gemu.h"
+#include "headers/memory.h"
 
 char* romdata;
 
@@ -29,21 +30,24 @@ int disassemble(uint16_t address)
   unsigned char B4_24 = (romdata[address+3] >> 3) & 7; // byte 4 bits[2:4]
   unsigned char B4_57 = romdata[address+3] & 7;        // byte 4 bits[5:7]
   
+  //**** LD r, (HL) ****
   if(B1_01==1 && B1_57==6)
   {
-    printf("LD r <- (HL)\n");
+    printf("LD %s <- (HL)\n", choosereg(B1_24));
     return 1;
   }
   
+  //**** LD (HL), r ****
   if(B1_01==1 && B1_24==6)
   {
     printf("LD (HL) <- r\n");
     return 1;
   }
   
+  //**** LD r, r' ****
   if(B1_01 == 1)
   {
-    printf("LD r <- r'\n");
+    printf("LD %s <- %s\n", choosereg(B1_24), choosereg(B1_57));
     return 1;
   }
   
