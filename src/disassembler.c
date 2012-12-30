@@ -224,7 +224,7 @@ int disassemble(uint16_t address)
     return 4;
   }
   
-  if(B1_07==0xDD && B2_07=0xF9)
+  if((B1_07==0xDD) && (B2_07==0xF9))
   {
     printf("LD SP <- -IX\n");
     return 2;
