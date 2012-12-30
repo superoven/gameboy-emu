@@ -24,4 +24,7 @@ extern uint8_t regL;
 //Return the name of the register
 const char* choosereg(unsigned char x);
 
+//Return the pair of registers
+const char* choosepair(unsigned char x);
+
 #endif

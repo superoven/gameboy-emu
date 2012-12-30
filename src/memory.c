@@ -46,3 +46,22 @@ const char* choosereg(unsigned char x) {
   }
 }
 
+const char* choosepair(unsigned char x) {
+  switch(x) {
+  case 0:
+    return "BC";
+    break;
+  case 1:
+    return "DE";
+    break;
+  case 2:
+    return "HL";
+    break;
+  case 3:
+    return "SP";
+    break;
+  default:
+    return "(Unknown Pair)";
+    break;
+  }
+}
