@@ -21,7 +21,6 @@ int loadrom(const char* romname, char** result) {
     free(*result);
     error("File buffered incorrectly");
   }
-  
   fclose(fp);
   return size;
 }
