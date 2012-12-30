@@ -1,3 +1,7 @@
+#include <inttypes.h>
+#include <stdio.h>
+
+char* romdata;
 
 int disassemble(uint16_t address)
 {

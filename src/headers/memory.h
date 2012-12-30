@@ -21,6 +21,7 @@ extern uint8_t regE;
 extern uint8_t regH;
 extern uint8_t regL;
 
+//Return the name of the register
 const char* choosereg(unsigned char x);
 
 #endif
