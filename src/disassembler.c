@@ -47,7 +47,7 @@ int disassemble(uint16_t address)
   //**** LD (HL), r ****
   if(B1_01==1 && B1_24==6)
   {
-    printf("LD (HL) <- r\n");
+    printf("LD (HL) <- %s\n", choosereg(B1_57));
     return 1;
   }
   
@@ -58,42 +58,51 @@ int disassemble(uint16_t address)
     return 1;
   }
   
+  //**** LD (HL), n ****
   if(B1_07==0x36)
   {
-    printf("LD (HL) <- n\n");
+    printf("LD (HL) <- 0x%08X\n", B2_07);
     return 2;
   }
   
+  //**** LD A, (BC) ****
   if(B1_07==0x0A)
   {
     printf("LD A <- (BC)\n");
     return 1;
   }
   
+  //**** LD A, (DE) ****
   if(B1_07==0x1A)
   {
     printf("LD A <- (DE)\n");
     return 1;
   }
   
+  //**** LD A, (nn) ****
   if(B1_07==0x3A)
   {
-    printf("LD A <- (nn)\n");
+    uint16_t result = (B3_07 << 8) + (B2_07);
+    printf("LD A <- (%016X)\n", result);
     return 3;
   }
-  
+
+  //**** LD (nn), A ****
   if(B1_07==0x32)
   {
-    printf("LD (nn) <- A\n");
+    uint16_t result = (B3_07 << 8) + (B2_07);
+    printf("LD (%016X) <- A\n", result);
     return 3;
   }
   
+  //**** LD (BC), A ****
   if(B1_07==0x02)
   {
     printf("LD (BC) <- A\n");
     return 1;
   }
   
+  //**** LD (DE), A ****
   if(B1_07==0x12)
   {
     printf("LD (DE) <- A\n");
@@ -142,6 +151,7 @@ int disassemble(uint16_t address)
     return 1;
   }
   
+  //**** LD dd nn ****
   if(B1_01==0 && B1_47==1)
   {
     printf("LD dd <- nn\n");
