@@ -6,6 +6,15 @@
 
 char* romdata;
 
+int DISDEBUG = 1;
+
+void debugoutput(unsigned char B1, unsigned char B2, unsigned char B3, unsigned char B4) {
+  if (DISDEBUG) {
+    printf("ERROR - B1: %02X, B2: %02X, B3: %02X, B4: %02X\n", B1, B2, B3, B4);
+  }
+} 
+  
+
 void disassemble(uint16_t begin, uint16_t end, char* data) {
   uint16_t jump = 0;
   while (begin < end) {
@@ -131,9 +140,12 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 3;
   }
   
+  //**** LD (nn), HL ****
+  //(nn+1) <- H, (nn) <- L
   if(B1_07==0x22)
   {
-    printf("(nn+1) <- H, (nn) <- L\n");
+    uint16_t result = (B3_07 << 8) + (B2_07);
+    printf("LD (%04X), HL\n", result);
     return 3;
   }
   
@@ -216,60 +228,6 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  if(B1_07==0xDD && B2_07==0x36)
-  {
-    printf("LD (IX+d) <- n\n");
-    return 4;
-  }
-  
-  if(B1_07==0xDD && B2_07==0x21)
-  {
-    printf("LD IX <- nn\n");
-    return 4;
-  }
-  
-  if(B1_07==0xDD && B2_07==0x2A)
-  {
-    printf("IXh <- (nn+1), IXI <- (nn)\n");
-    return 4;
-  }
-  
-  if(B1_07==0xDD && B2_07==0x22)
-  {
-    printf("(nn+1) <- IXh, (nn) <- IXI\n");
-    return 4;
-  }
-  
-  if((B1_07==0xDD) && (B2_07==0xF9))
-  {
-    printf("LD SP <- -IX\n");
-    return 2;
-  }
-  
-  if(B1_07==0xDD && B2_07==0xE5)
-  {
-    printf("PUSH (SP-2) <- IXL, (SP-1) <- IXH\n");
-    return 2;
-  }
-  
-  if(B1_07==0xDD && B2_07==0xE1)
-  {
-    printf("POP IXH <- (SP+1), IXL <- (SP)\n");
-    return 2;
-  }
-  
-  if(B1_07==0xDD && B2_07==0xE3)
-  {
-    printf("EX IXH<->(SP+1),IXL<->(SP)\n");
-    return 1;
-  }
-  
-  if(B1_07==0xDD && B2_07==0xFD)
-  {
-    printf("POP IYH <- (SP-X1), IYL <- (SP)\n");
-    return 2;
-  }
-  
   if(B1_07==0xED && B2_07==0xA0)
   {
     printf("LDI (DE)<-(HL),DE <- DE+1, HL <- HL+1, BC <- BC-1\n");
@@ -318,48 +276,6 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  if(B1_07==0xFD && B2_07==0x36)
-  {
-    printf("LD (IY+d) <- n\n");
-    return 4;
-  }
-  
-  if(B1_07==0xFD && B2_07==0x21)
-  {
-    printf("LD IY <- nn\n");
-    return 4;
-  }
-  
-  if(B1_07==0xFD && B2_07==0x22)
-  {
-    printf("(nn+1) <- IYh, (nn) <- IYI\n");
-    return 4;
-  }
-  
-  if(B1_07==0xFD && B2_07==0x2A)
-  {
-    printf("IYh <- (nn+1), IYI <- (nn)\n");
-    return 4;
-  }
-  
-  if(B1_07==0xFD && B2_07==0xE3)
-  {
-    printf("EX IYH<->(SP+1),IYL<->(SP)\n");
-    return 2;
-  }
-  
-  if(B1_07==0xFD && B2_07==0xE5)
-  {
-    printf("PUSH (SP-2) <- IYL, (SP-1) <- IYH\n");
-    return 2;
-  }
-  
-  if(B1_07==0xFD && B2_07==0xF9)
-  {
-    printf("LD SP <-IY\n");
-    return 2;
-  }
-  
   if(B1_07==0xED && B2_01==1 && B2_47==0xB)
   {
     printf("ddh <- (nn+1) ddl <- (nn)\n");
@@ -372,29 +288,6 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 4;
   }
   
-  if(B1_07==0xDD && B2_01==1 && B2_24==6)
-  {
-    printf("LD (IX+d) <- r\n");
-    return 3;
-  }
-  
-  if(B1_07==0xDD && B2_01==1 && B2_57==6)
-  {
-    printf("LD r <- (IX+d)\n");
-    return 3;
-  }
-  
-  if(B1_07==0xFD && B2_01==1 && B2_24==6)
-  {
-    printf("LD (IY+d) <- r\n");
-    return 3;
-  }
-  
-  if(B1_07==0xFD && B2_01==1 && B2_57==6)
-  {
-    printf("LD r <- (IY+d)\n");
-    return 3;
-  }
-  
+  debugoutput(B1_07, B2_07, B3_07, B4_07);
   return 0;
 }
