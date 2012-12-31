@@ -27,4 +27,7 @@ const char* choosereg(unsigned char x);
 //Return the pair of registers
 const char* choosepair(unsigned char x);
 
+//Take a string of hex values, and return a char* array of that data
+extern char* loadbytes(const char* input);
+
 #endif

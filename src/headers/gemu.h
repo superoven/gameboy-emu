@@ -27,7 +27,10 @@ extern void rominfo(int size);
 //Print out the hex of the rom starting from "begin" to "end"
 extern void printhex(int begin, int end);
 
+//Disassemble all data in data from "begin" to "end"
+extern void disassemble(uint16_t begin, uint16_t end, char* data);
+
 //Disassemble the given instruction in "data" at "address" return number of bytes used
-extern int disassemble(uint16_t address, char* data);
+extern uint16_t _disassemble(uint16_t address, char* data);
 
 #endif

@@ -9,6 +9,9 @@
 #include "headers/memory.h"
 #include "headers/gemu.h"
 
+#include <string.h>
+#include <stdlib.h>
+
 uint8_t regA = 0;
 uint8_t regB = 0;
 uint8_t regC = 0;
@@ -41,7 +44,7 @@ const char* choosereg(unsigned char x) {
     return "L";
     break;
   default:
-    return "(REGISTER)";
+    return "(UNKNOWN REGISTER)";
     break;
   }
 }
@@ -64,4 +67,17 @@ const char* choosepair(unsigned char x) {
     return "(Unknown Pair)";
     break;
   }
+}
+
+char* loadbytes(const char* input) {
+  if (strlen(input)%2) error("Incorrect input to function 'loadbytes'");
+  char* buffer = malloc(strlen(input)/2);
+  char *dst = buffer;
+  char *end = buffer + sizeof(buffer);
+  unsigned int u;
+  while (dst < end && sscanf(input, "%2X", &u) == 1) {
+    *dst++ = u;
+    input += 2;
+  }
+  return buffer;
 }

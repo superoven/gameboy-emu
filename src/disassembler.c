@@ -6,7 +6,19 @@
 
 char* romdata;
 
-int disassemble(uint16_t address, char* data)
+void disassemble(uint16_t begin, uint16_t end, char* data) {
+  uint16_t jump = 0;
+  while (begin < end) {
+    jump = _disassemble(begin, data);
+    if (!jump) {
+      printf("(ERROR!)\n");
+      break;
+    }
+    begin += jump;
+  }
+}
+
+uint16_t _disassemble(uint16_t address, char* data)
 {
 /* 
    Ok, so I'm just making variables for any bits that are used to differentiate opcodes.
@@ -41,42 +53,42 @@ int disassemble(uint16_t address, char* data)
   //**** LD r, (HL) ****
   if(B1_01==1 && B1_57==6)
   {
-    printf("LD %s <- (HL)\n", choosereg(B1_24));
+    printf("LD %s, (HL)\n", choosereg(B1_24));
     return 1;
   }
   
   //**** LD (HL), r ****
   if(B1_01==1 && B1_24==6)
   {
-    printf("LD (HL) <- %s\n", choosereg(B1_57));
+    printf("LD (HL), %s\n", choosereg(B1_57));
     return 1;
   }
   
   //**** LD r, r' ****
   if(B1_01 == 1)
   {
-    printf("LD %s <- %s\n", choosereg(B1_24), choosereg(B1_57));
+    printf("LD %s, %s\n", choosereg(B1_24), choosereg(B1_57));
     return 1;
   }
   
   //**** LD (HL), n ****
   if(B1_07==0x36)
   {
-    printf("LD (HL) <- 0x%08X\n", B2_07);
+    printf("LD (HL), 0x%08X\n", B2_07);
     return 2;
   }
   
   //**** LD A, (BC) ****
   if(B1_07==0x0A)
   {
-    printf("LD A <- (BC)\n");
+    printf("LD A, (BC)\n");
     return 1;
   }
   
   //**** LD A, (DE) ****
   if(B1_07==0x1A)
   {
-    printf("LD A <- (DE)\n");
+    printf("LD A, (DE)\n");
     return 1;
   }
   
@@ -84,7 +96,7 @@ int disassemble(uint16_t address, char* data)
   if(B1_07==0x3A)
   {
     uint16_t result = (B3_07 << 8) + (B2_07);
-    printf("LD A <- (%016X)\n", result);
+    printf("LD A, (%016X)\n", result);
     return 3;
   }
 
@@ -92,21 +104,21 @@ int disassemble(uint16_t address, char* data)
   if(B1_07==0x32)
   {
     uint16_t result = (B3_07 << 8) + (B2_07);
-    printf("LD (%016X) <- A\n", result);
+    printf("LD (%016X), A\n", result);
     return 3;
   }
   
   //**** LD (BC), A ****
   if(B1_07==0x02)
   {
-    printf("LD (BC) <- A\n");
+    printf("LD (BC), A\n");
     return 1;
   }
   
   //**** LD (DE), A ****
   if(B1_07==0x12)
   {
-    printf("LD (DE) <- A\n");
+    printf("LD (DE), A\n");
     return 1;
   }
   

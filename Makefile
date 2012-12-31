@@ -29,4 +29,4 @@ checkdis: $(EXECUTABLE)
 	python ./tests/testdis.py
 
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE) src/*~ src/header/*~
+	rm -f $(OBJECTS) $(EXECUTABLE) src/*~ src/header/*~ tests/dis/*.out
