@@ -1,0 +1,8 @@
+LD E, 10
+LD L, C
+LD D, (HL)
+LD (HL), B
+LD (HL), 7
+LD A, (BC)
+LD A, (DE)
+LD A, (032C)

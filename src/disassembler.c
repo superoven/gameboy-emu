@@ -74,7 +74,7 @@ uint16_t _disassemble(uint16_t address, char* data)
   //**** LD (HL), n ****
   if(B1_07==0x36)
   {
-    printf("LD (HL), 0x%08X\n", B2_07);
+    printf("LD (HL), 0x%02X\n", B2_07);
     return 2;
   }
   
@@ -96,7 +96,7 @@ uint16_t _disassemble(uint16_t address, char* data)
   if(B1_07==0x3A)
   {
     uint16_t result = (B3_07 << 8) + (B2_07);
-    printf("LD A, (%016X)\n", result);
+    printf("LD A, (%04X)\n", result);
     return 3;
   }
 
@@ -104,7 +104,7 @@ uint16_t _disassemble(uint16_t address, char* data)
   if(B1_07==0x32)
   {
     uint16_t result = (B3_07 << 8) + (B2_07);
-    printf("LD (%016X), A\n", result);
+    printf("LD (%04X), A\n", result);
     return 3;
   }
   
@@ -122,9 +122,12 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 1;
   }
   
+  //**** LD HL, (nn) ****
+  // H <- (nn+1) , L <- (nn)
   if(B1_07==0x2A)
   {
-    printf("H <- (nn+1) , L <- (nn)\n");
+    uint16_t result = (B3_07 << 8) + (B2_07);
+    printf("LD HL, (%04X)\n", result);
     return 3;
   }
   

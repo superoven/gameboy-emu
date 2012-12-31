@@ -1,0 +1,32 @@
+#!/bin/bash
+
+make
+
+echo ""
+echo "Disassembler Test Script"
+
+EXPECTED_ARGS=1
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+then
+  echo "Usage: ./rundis [testfile]"
+  exit $E_BADARGS
+fi
+
+FILENAME=$1".c"
+HEAD=$1
+LOC="./tests/dis/"
+
+gcc -o $LOC$HEAD ./obj/memory.o ./obj/disassembler.o $LOC$FILENAME
+
+echo ""
+echo "Expected Output:"
+echo ""
+cat $LOC$HEAD".std"
+echo ""
+echo "Output:"
+echo ""
+$LOC$HEAD
+echo ""
+rm $LOC$HEAD
