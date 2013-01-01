@@ -73,11 +73,23 @@ char* loadbytes(const char* input) {
   if (strlen(input)%2) error("Incorrect input to function 'loadbytes'");
   char* buffer = malloc(strlen(input)/2);
   char *dst = buffer;
-  char *end = buffer + sizeof(buffer);
+  char *end = buffer + strlen(input)/2;
   unsigned int u;
   while (dst < end && sscanf(input, "%2X", &u) == 1) {
-    *dst++ = u;
+    *dst++ = (u & 0xFF);
     input += 2;
   }
   return buffer;
+}
+
+uint16_t tobigend2(uint8_t a, uint8_t b) {
+  return ((uint16_t)b << 8) + a;
+}
+
+uint32_t tobigend3(uint8_t a, uint8_t b, uint8_t c) {
+  return ((uint32_t)c << 16) + ((uint32_t)b << 8) + a;
+}
+
+uint32_t tobigend4(uint8_t a, uint8_t b, uint8_t c, uint8_t d) {
+  return ((uint32_t)d << 24) + ((uint32_t)c << 16) + ((uint32_t)b << 8) + a;
 }

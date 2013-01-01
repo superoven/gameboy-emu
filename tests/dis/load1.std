@@ -1,4 +1,4 @@
-LD E, 10
+LD E, 12
 LD L, C
 LD D, (HL)
 LD (HL), B
