@@ -29,7 +29,7 @@ print "-----------------------"
 
 for f in testfiles:
   head = f.split(".")[0]
-  print "%s:\t\t" % f,
+  print "%s:\t\t" % head,
   command = ["gcc", "-o", path + head, path + f]
   command[3:3] = objects
 
