@@ -76,7 +76,6 @@ for f in testfiles:
 
 print
 if failed:
-  print "Total Failed:\t", failed
-  print "Percent Failed:\t%.2f%%" % ((float(failed)/float(numfiles))*100)
+  print "Tests Passed: %d/%d (%.2f%%)" % (numfiles-failed, numfiles, (float(numfiles-failed)/float(numfiles))*100)
 else:
-  print "All Tests Pass!"
+  print "All %d Tests Pass!" % (numfiles)
