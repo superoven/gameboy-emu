@@ -12,6 +12,7 @@ void debugoutput(unsigned char B1, unsigned char B2, unsigned char B3, unsigned 
   if (DISDEBUG) printf("ERROR - B1: %02X, B2: %02X, B3: %02X, B4: %02X\n", B1, B2, B3, B4);
 } 
 
+//Print out the contents of "data" from "begin" to "end" (for debugging purposes)
 void printbuffer(uint16_t begin, uint16_t end, char* data) {
   while (begin < end) {
     printf("%04X: 0x%02X\n", begin, data[begin]);
@@ -43,70 +44,70 @@ uint16_t _disassemble(uint16_t address, char* data)
   /*********************/
 
 
-  //**** LD r, (HL) ****
+  //**** LD r, (HL) **** X
   if(B1.rtype.funct == 1 && B1.rtype.reg2 == 6)
   {
     printf("LD %s, (HL)\n", choosereg(B1.rtype.reg1));
     return 1;
   }
   
-  //**** LD (HL), r ****
+  //**** LD (HL), r **** X
   if(B1.rtype.funct == 1 && B1.rtype.reg1 == 6)
   {
     printf("LD (HL), %s\n", choosereg(B1.rtype.reg2));
     return 1;
   }
 
-  //**** LD r, r' ****
+  //**** LD r, r' **** X
   if(B1.rtype.funct == 1)
   {
     printf("LD %s, %s\n", choosereg(B1.rtype.reg1), choosereg(B1.rtype.reg2));
     return 1;
   }
 
-  //**** LD A, (BC) ****
+  //**** LD A, (BC) **** X
   if(B1.bits == 0x0A)
   {
     printf("LD A, (BC)\n");
     return 1;
   }
   
-  //**** LD A, (DE) ****
+  //**** LD A, (DE) **** X
   if(B1.bits == 0x1A)
   {
     printf("LD A, (DE)\n");
     return 1;
   }
 
-  //**** LD (BC), A ****
+  //**** LD (BC), A **** X
   if(B1.bits == 0x02)
   {
     printf("LD (BC), A\n");
     return 1;
   }
 
-  //**** LD (DE), A ****
+  //**** LD (DE), A **** X
   if(B1.bits == 0x12)
   {
     printf("LD (DE), A\n");
     return 1;
   }
   
-  //**** LD SP, HL ****
+  //**** LD SP, HL **** X
   if(B1.bits == 0xF9)
   {
     printf("LD SP, HL\n");
     return 1;
   }
   
-  //**** EX DE, HL ****
+  //**** EX DE, HL **** X
   if(B1.bits == 0xEB)
   {
     printf("EX DE, HL\n");
     return 1;
   }
   
-  //**** EX (SP), HL ****
+  //**** EX (SP), HL **** X 
   // EX H<->(SP+1),L<->(SP)
   if(B1.bits == 0xE3)
   {
@@ -114,7 +115,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 1;
   }
 
-  //**** PUSH qq ****
+  //**** PUSH qq **** X
   // PUSH (SP-2) <- qqL, (SP-1) <- qqH
   if(B1.ptype.funct == 3 && B1.ptype.footer == 5)
   {
@@ -122,7 +123,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 1;
   }
   
-  //**** POP qq ****
+  //**** POP qq **** X
   // POP qqH <- (SP+1), qqL <- (SP)
   if(B1.ptype.funct == 3 && B1.ptype.footer == 1)
   {
@@ -138,49 +139,49 @@ uint16_t _disassemble(uint16_t address, char* data)
   B2.bits = *((uint8_t*)(data + address + 1));
 
   
-  //**** LD (HL), n ****
+  //**** LD (HL), n **** X
   if(B1.bits == 0x36)
   {
     printf("LD (HL), %d\n", B2.bits);
     return 2;
   }
 
-  //**** LD r, n ****
+  //**** LD r, n **** X
   if(B1.rtype.funct == 0 && B1.rtype.reg2 == 6)
   {
     printf("LD %s, %02X\n", choosereg(B1.rtype.reg1), B2.bits);
     return 2;
   }
 
-  //**** LD A, I ****
+  //**** LD A, I **** X
   if(B1.bits == 0xED && B2.bits == 0x57)
   {
     printf("LD A, I\n");
     return 2;
   }
   
-  //**** LD I, A ****
+  //**** LD I, A **** X
   if(B1.bits == 0xED && B2.bits == 0x47)
   {
     printf("LD I, A\n");
     return 2;
   }
 
-  //**** LD A, R ****
+  //**** LD A, R **** X
   if(B1.bits == 0xED && B2.bits == 0x5F)
   {
     printf("LD A, R\n");
     return 2;
   }
   
-  //**** LD R, A ****
+  //**** LD R, A **** X
   if(B1.bits == 0xED && B2.bits == 0x4F)
   {
     printf("LD R, A\n");
     return 2;
   }
   
-  //**** LDI *****
+  //**** LDI ***** X
   // LDI (DE)<-(HL),DE <- DE+1, HL <- HL+1, BC <- BC-1
   if(B1.bits == 0xED && B2.bits == 0xA0)
   {
@@ -188,7 +189,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  //**** LDD ****
+  //**** LDD **** X
   // LDD (DE)<-(HL),DE <- DE-1,HL <- HL-1,BC <- BC-1
   if(B1.bits == 0xED && B2.bits == 0xA8)
   {
@@ -196,7 +197,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  //**** LDDR ****
+  //**** LDDR **** X
   // LDDR (DE)<-(HL),DE <- D <- 1,HL <- HL-1,BC <- BC-1
   if(B1.bits == 0xED && B2.bits == 0xB8)
   {
@@ -204,7 +205,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  //**** CPDR ****
+  //**** CPDR **** X
   // CPDR A-(HL),HL <- HL-1,BC <- BC-1
   if(B1.bits == 0xED && B2.bits == 0xB9)
   {
@@ -212,7 +213,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  //**** LDIR ****
+  //**** LDIR **** X
   // LDIR (DE)<-(HL),DE <- DE+1, HL <- HL+1, BC F <-> BC-1
   if(B1.bits == 0xED && B2.bits == 0xB0)
   {
@@ -220,7 +221,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  //**** CPI ****
+  //**** CPI **** X
   // CPI A-(HL),HL <- HL+1, BC <- BC-1
   if(B1.bits == 0xED && B2.bits == 0xA1)
   {
@@ -228,7 +229,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  //**** CPIR ****
+  //**** CPIR **** X
   // CPIR A-(HL),HL <- HL+1,BC <- BC-1
   if(B1.bits == 0xED && B2.bits == 0xB1)
   {
@@ -236,7 +237,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 2;
   }
   
-  //**** CPD ****
+  //**** CPD **** X
   // CPD A-(HL),HL <- HL-1,BC <- BC-1
   if(B1.bits == 0xED && B2.bits == 0xA9)
   {
@@ -252,21 +253,21 @@ uint16_t _disassemble(uint16_t address, char* data)
   B3.bits = *((uint8_t*)(data + address + 2));
 
 
-  //**** LD A, (nn) ****
+  //**** LD A, (nn) **** X
   if(B1.bits == 0x3A)
   {
     printf("LD A, (%04X)\n", tobigend2(B2.bits, B3.bits));
     return 3;
   }
 
-  //**** LD (nn), A ****
+  //**** LD (nn), A **** X
   if(B1.bits == 0x32)
   {
     printf("LD (%04X), A\n", tobigend2(B2.bits, B3.bits));
     return 3;
   }
   
-  //**** LD HL, (nn) ****
+  //**** LD HL, (nn) **** X
   // H <- (nn+1) , L <- (nn)
   if(B1.bits == 0x2A)
   {
@@ -274,7 +275,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 3;
   }
   
-  //**** LD (nn), HL ****
+  //**** LD (nn), HL **** X
   //(nn+1) <- H, (nn) <- L
   if(B1.bits == 0x22)
   {
@@ -282,7 +283,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 3;
   }
   
-  //**** LD dd, nn ****
+  //**** LD dd, nn **** X
   if(B1.ptype.funct == 0 && B1.ptype.footer == 1)
   {
     printf("LD %s, %d\n", choosepair(B1.ptype.pair), tobigend2(B2.bits, B3.bits));
@@ -297,7 +298,7 @@ uint16_t _disassemble(uint16_t address, char* data)
   B4.bits = *((uint8_t*)(data + address + 3));
 
   
-  //**** LD dd, (nn) ****
+  //**** LD dd, (nn) **** X
   // ddh <- (nn+1) ddl <- (nn)
   if(B1.bits == 0xED && B2.ptype.funct == 1 && B2.ptype.footer == 0xB)
   {
@@ -305,7 +306,7 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 4;
   }
   
-  //**** LD (nn), dd ****
+  //**** LD (nn), dd **** X
   // (nn+1) <- ddh, (nn) <- ddl
   if(B1.bits == 0xED && B2.ptype.funct == 1 && B2.ptype.footer == 3)
   {
