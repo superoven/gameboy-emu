@@ -44,6 +44,62 @@ uint16_t _disassemble(uint16_t address, char* data)
   /*********************/
 
 
+  //**** ADD A, r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 0) 
+  {
+    printf("ADD A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+  
+  //**** ADD A, (HL) ****
+  if(B1.bits == 0x86)
+  {
+    printf("ADD A, (HL)\n");
+    return 1;
+  }
+
+  //**** ADC A, r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 1)
+  {
+    printf("ADC A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+
+  //**** ADC A, (HL) ****
+  if(B1.bits == 0x8E)
+  {
+    printf("ADC A, (HL)\n");
+    return 1;
+  }
+
+  //**** SUB r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 2)
+  {
+    printf("SUB A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+
+  //**** SUB (HL) ****
+  if(B1.bits == 0x96)
+  {
+    printf("SUB A, (HL)\n");
+    return 1;
+  }
+
+  //**** SBC A, r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 3)
+  {
+    printf("SBC A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+
+  //**** SBC A, (HL) ****
+  if(B1.bits == 0x93)
+  {
+    printf("SBC A, (HL)\n");
+    return 1;
+  }
+
   //**** LD r, (HL) **** X
   if(B1.rtype.funct == 1 && B1.rtype.reg2 == 6)
   {
@@ -139,6 +195,31 @@ uint16_t _disassemble(uint16_t address, char* data)
   B2.bits = *((uint8_t*)(data + address + 1));
 
   
+  //**** ADD A, n ****
+  if(B1.bits == 0xC6) {
+    printf("ADD A, %d\n", B2.bits);
+    return 2;
+  }
+
+  //**** ADC A, n ****
+  if(B1.bits == 0xCE) {
+    printf("ADC A, %d\n", B2.bits);
+    return 2;
+  }
+
+  //**** SUB n ****
+  if(B1.bits == 0xD6)
+  {
+    printf("SUB A, %d\n", B2.bits);
+    return 2;
+  }
+
+  //**** SBC A, n ****
+  if(B1.bits == 0xDE) {
+    printf("SBC A, %d\n", B2.bits);
+    return 2;
+  }
+
   //**** LD (HL), n **** X
   if(B1.bits == 0x36)
   {
