@@ -100,6 +100,70 @@ uint16_t _disassemble(uint16_t address, char* data)
     return 1;
   }
 
+  //**** AND r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 4)
+  {
+    printf("AND A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+
+  //**** AND (HL) ****
+  if(B1.bits == 0xA6)
+  {
+    printf("AND A, (HL)\n");
+    return 1;
+  }
+
+  //**** OR r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 6)
+  {
+    printf("OR A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+
+  //**** OR (HL) ****
+  if(B1.bits == 0xB6)
+  {
+    printf("OR A, (HL)\n");
+    return 1;
+  }
+
+  //**** XOR r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 5)
+  //The PDF says this wrong, I cross referenced other sites and they say this is correct
+  {
+    printf("XOR A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+
+  //**** XOR (HL) ****
+  if(B1.bits == 0xAE)
+  {
+    printf("XOR A, (HL)\n");
+    return 1;
+  }
+
+  //**** CP r ****
+  if(B1.rtype.funct == 2 && B1.rtype.reg1 == 7)
+  {
+    printf("CP A, %s\n", choosereg(B1.rtype.reg2));
+    return 1;
+  }
+
+  //**** CP (HL) ****
+  if(B1.bits == 0xBE)
+  {
+    printf("XOR A, (HL)\n");
+    return 1;
+  }
+
+  //**** INC r ****
+  if(B1.rtype.funct == 0 && B1.rtype.reg2 == 4)
+  {
+    printf("INC %s\n", choosereg(B1.rtype.reg1));
+    return 1;
+  }
+
   //**** LD r, (HL) **** X
   if(B1.rtype.funct == 1 && B1.rtype.reg2 == 6)
   {
@@ -217,6 +281,34 @@ uint16_t _disassemble(uint16_t address, char* data)
   //**** SBC A, n ****
   if(B1.bits == 0xDE) {
     printf("SBC A, %d\n", B2.bits);
+    return 2;
+  }
+
+  //**** AND A, n ****
+  if(B1.bits == 0xE6)
+  {
+    printf("AND A, %d\n", B2.bits);
+    return 2;
+  }
+
+  //**** OR A, n ****
+  if(B1.bits == 0xF6)
+  {
+    printf("OR A, %d\n", B2.bits);
+    return 2;
+  }
+
+  //**** XOR A, n ****
+  if(B1.bits == 0xEE)
+  {
+    printf("XOR A, %d\n", B2.bits);
+    return 2;
+  }
+
+  //**** CP A, n ****
+  if(B1.bits == 0xFE)
+  {
+    printf("CP A, %d\n", B2.bits);
     return 2;
   }
 
